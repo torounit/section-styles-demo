@@ -22,16 +22,16 @@ WordPress 7.1.3（安定版）と 7.2（trunk）で、フロントとエディ�
 
 ### section style ファイル（`styles/sections/*/*.json`）に書いた場合
 
-| ファイル | 記述場所 | スキーマ | 7.1.3 | 7.2 |
-| --- | --- | --- | --- | --- |
-| [root-css.json](styles/sections/working/root-css.json) | `styles.css`（`&` ネスト含む） | 有効 | ✅ | ✅ |
-| [root-breakpoints.json](styles/sections/working/root-breakpoints.json) | `styles.@tablet` / `styles.@mobile`（プロパティ・`elements`） | 有効 | ❌ 黙って捨てられる | ✅ |
-| [root-breakpoints-css.json](styles/sections/working/root-breakpoints-css.json) | `styles.@mobile.css` | 有効 | ❌ | ✅ |
-| [blocks-breakpoints.json](styles/sections/working/blocks-breakpoints.json) | `styles.blocks.{block}.@tablet` / `@mobile`（`css` 含む） | 有効 | ✅ | ✅ |
-| [blocks-breakpoints-elements.json](styles/sections/working/blocks-breakpoints-elements.json) | `styles.blocks.{block}.@tablet` / `@mobile` 内の `elements.{element}`（`css` 含む） | 有効 | ✅ | ✅ |
-| [root-breakpoints-blocks.json](styles/sections/not-working/root-breakpoints-blocks.json) | `styles.@mobile.blocks.{block}` | **無効** | ❌ | ❌ |
-| [elements-breakpoints.json](styles/sections/not-working/elements-breakpoints.json) | `styles.elements.{element}.@tablet` / `@mobile` | **無効** | ⚠️ | ⚠️ |
-| [blocks-elements-breakpoints.json](styles/sections/not-working/blocks-elements-breakpoints.json) | `styles.blocks.{block}.elements.{element}.@tablet` / `@mobile` | **無効** | ⚠️ | ⚠️ |
+| ファイル | 記述場所 | スキーマ | 7.1.3 | 7.2 | 関連 |
+| --- | --- | --- | --- | --- | --- |
+| [root-css.json](styles/sections/working/root-css.json) | `styles.css`（`&` ネスト含む） | 有効 | ✅ | ✅ | [PR #62526](https://github.com/WordPress/gutenberg/pull/62526) |
+| [root-breakpoints.json](styles/sections/working/root-breakpoints.json) | `styles.@tablet` / `styles.@mobile`（プロパティ・`elements`） | 有効 | ❌ 黙って捨てられる | ✅ | [Trac #65992](https://core.trac.wordpress.org/ticket/65992)（[r63610](https://core.trac.wordpress.org/changeset/63610)）、[#82392](https://github.com/WordPress/gutenberg/issues/82392) / [PR #82403](https://github.com/WordPress/gutenberg/pull/82403)、[theme.json リファレンス](https://github.com/WordPress/gutenberg/blob/trunk/docs/reference-guides/theme-json-reference/theme-json-living.md#styles) |
+| [root-breakpoints-css.json](styles/sections/working/root-breakpoints-css.json) | `styles.@mobile.css` | 有効 | ❌ | ✅ | [Trac #65992](https://core.trac.wordpress.org/ticket/65992)（[r63610](https://core.trac.wordpress.org/changeset/63610)）、[#82392](https://github.com/WordPress/gutenberg/issues/82392) / [PR #82403](https://github.com/WordPress/gutenberg/pull/82403) |
+| [blocks-breakpoints.json](styles/sections/working/blocks-breakpoints.json) | `styles.blocks.{block}.@tablet` / `@mobile`（`css` 含む） | 有効 | ✅ | ✅ | [Dev note](https://make.wordpress.org/core/2026/08/05/responsive-block-styles-and-configurable-viewports-in-wordpress-7-1/) |
+| [blocks-breakpoints-elements.json](styles/sections/working/blocks-breakpoints-elements.json) | `styles.blocks.{block}.@tablet` / `@mobile` 内の `elements.{element}`（`css` 含む） | 有効 | ✅ | ✅ | [Global Settings & Styles](https://github.com/WordPress/gutenberg/blob/trunk/docs/how-to-guides/themes/global-settings-and-styles.md#responsive-styles) |
+| [root-breakpoints-blocks.json](styles/sections/not-working/root-breakpoints-blocks.json) | `styles.@mobile.blocks.{block}` | **無効** | ❌ | ❌ | 無効フィクスチャ [stylesBlocksResponsiveStatePropertiesComplete](https://github.com/WordPress/gutenberg/blob/trunk/test/integration/fixtures/schemas/stylesBlocksResponsiveStatePropertiesComplete.json) |
+| [elements-breakpoints.json](styles/sections/not-working/elements-breakpoints.json) | `styles.elements.{element}.@tablet` / `@mobile` | **無効** | ⚠️ | ⚠️ | 無効フィクスチャ [stylesElementsPropertiesComplete_breakpoint](https://github.com/WordPress/gutenberg/blob/trunk/test/integration/fixtures/schemas/stylesElementsPropertiesComplete_breakpoint.json) |
+| [blocks-elements-breakpoints.json](styles/sections/not-working/blocks-elements-breakpoints.json) | `styles.blocks.{block}.elements.{element}.@tablet` / `@mobile` | **無効** | ⚠️ | ⚠️ | 無効フィクスチャ [stylesElementsPropertiesComplete_blockBreakpoint](https://github.com/WordPress/gutenberg/blob/trunk/test/integration/fixtures/schemas/stylesElementsPropertiesComplete_blockBreakpoint.json) |
 
 7.2 で正常に動作するものは [working/](styles/sections/working/)、そうでないものは [not-working/](styles/sections/not-working/) に置いています。not-working の3ケースは、いずれも公式スキーマで無効とされる書き方です。各ファイルの slug はファイル名と同じで、`is-style-{slug}` として Group ブロックに適用します。title と description には、どのバージョンで動作するかを書いています。
 
