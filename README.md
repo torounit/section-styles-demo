@@ -35,6 +35,10 @@ WordPress 7.1.3（安定版）と 7.2（trunk）で、フロントとエディ�
 
 7.2 で正常に動作するものは [working/](styles/sections/working/)、そうでないものは [not-working/](styles/sections/not-working/) に置いています。not-working の3ケースは、いずれも公式スキーマで無効とされる書き方です。各ファイルの slug はファイル名と同じで、`is-style-{slug}` として Group ブロックに適用します。title と description には、どのバージョンで動作するかを書いています。
 
+「無効フィクスチャ」は、Gutenberg のスキーマテスト [test/integration/theme-schema.test.js](https://github.com/WordPress/gutenberg/blob/trunk/test/integration/theme-schema.test.js) が `invalidFiles` として読み込むファイルです。`test/integration/fixtures/schemas/*.json` のすべてが対象で、公式 JSON スキーマでの検証結果が `false` になることがテストされています（`test.each( invalidFiles )( 'invalidates schema for …' )` で `expect( result ).toBe( false )`）。フィクスチャのファイル自体に「無効」と書かれているわけではなく、このテストでの扱いから無効と判断しています。手元でも同じスキーマで検証し、対応する3ファイルがいずれも無効になることを確認しました。
+
+なお、ここでいう「無効」は公式 JSON スキーマ上の扱いです。このスキーマは IDE での補完・検証や Gutenberg の CI で使われるもので、WordPress が実行時に使う PHP のサニタイズ（`WP_Theme_JSON::sanitize()`）は別のスキーマを持っています。そのため、スキーマで無効な書き方でも実行時にエラーにはなりません。
+
 ### theme.json に直接書いた場合（参考）
 
 `register_block_style()` で登録したうえで、theme.json の `styles.blocks.core/group.variations.{slug}` に書いた場合です。7.1.3 でだけ確認しました。
