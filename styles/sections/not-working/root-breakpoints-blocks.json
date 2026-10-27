@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"slug": "root-breakpoints-blocks",
+	"title": "Root @mobile blocks (not supported)",
+	"description": "styles.@mobile.blocks.{block}。7.1.3 / 7.2 とも動作しない（スキーマで除外され、出力されない）。",
+	"blockTypes": [
+		"core/group"
+	],
+	"styles": {
+		"blocks": {
+			"core/separator": {
+				"color": {
+					"text": "red"
+				}
+			}
+		},
+		"@mobile": {
+			"blocks": {
+				"core/separator": {
+					"color": {
+						"text": "blue"
+					}
+				}
+			}
+		}
+	}
+}

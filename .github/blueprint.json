@@ -1,0 +1,29 @@
+{
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"landingPage": "/",
+	"preferredVersions": {
+		"php": "8.3",
+		"wp": "latest"
+	},
+	"steps": [
+		{
+			"step": "setSiteOptions",
+			"options": {
+				"blogname": "Section Styles Demo",
+				"blogdescription": "Block style variations for sections"
+			}
+		},
+		{
+			"step": "installTheme",
+			"themeData": {
+				"resource": "git:directory",
+				"url": "https://github.com/torounit/section-styles-demo",
+				"ref": "main",
+				"path": "/"
+			},
+			"options": {
+				"activate": true
+			}
+		}
+	]
+}

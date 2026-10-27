@@ -1,0 +1,9 @@
+# Exclude development files from distribution archives (git archive).
+/.claude export-ignore
+/.github export-ignore
+/.playground export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/CLAUDE.md export-ignore
+/package.json export-ignore
+/package-lock.json export-ignore

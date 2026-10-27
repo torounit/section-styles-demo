@@ -1,0 +1,34 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"slug": "blocks-elements-breakpoints",
+	"title": "Blocks elements @tablet / @mobile (editor only)",
+	"description": "styles.blocks.{block}.elements.{element}.@tablet / @mobile。7.1.3 / 7.2 ともエディタにだけ出力され、フロントには出ない。",
+	"blockTypes": [
+		"core/group"
+	],
+	"styles": {
+		"blocks": {
+			"core/paragraph": {
+				"elements": {
+					"link": {
+						"color": {
+							"text": "red"
+						},
+						"@tablet": {
+							"color": {
+								"text": "green"
+							}
+						},
+						"@mobile": {
+							"color": {
+								"text": "blue"
+							},
+							"css": "text-decoration-thickness: 4px;"
+						}
+					}
+				}
+			}
+		}
+	}
+}

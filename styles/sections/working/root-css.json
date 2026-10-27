@@ -1,0 +1,13 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"slug": "root-css",
+	"title": "Root css (7.1.3+)",
+	"description": "styles.css（& ネスト含む）。7.1.3 / 7.2 ともフロント・エディタで動作する。",
+	"blockTypes": [
+		"core/group"
+	],
+	"styles": {
+		"css": "outline: 4px dashed red; & p { font-style: italic; }"
+	}
+}

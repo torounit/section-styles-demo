@@ -1,0 +1,11 @@
+{
+	"name": "section-styles-demo",
+	"private": true,
+	"scripts": {
+		"start": "wp-playground-cli server --auto-mount --blueprint=.playground/blueprint.json",
+		"start:nightly": "wp-playground-cli server --auto-mount --blueprint=.playground/blueprint-nightly.json --port=9401"
+	},
+	"devDependencies": {
+		"@wp-playground/cli": "^3.1.58"
+	}
+}

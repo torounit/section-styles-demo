@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"slug": "root-breakpoints",
+	"title": "Root @tablet / @mobile (7.2+)",
+	"description": "styles.@tablet / @mobile（プロパティ・elements）。7.2 で動作する。7.1.3 ではサニタイズで捨てられる（#65992）。",
+	"blockTypes": [
+		"core/group"
+	],
+	"styles": {
+		"color": {
+			"background": "lightgray"
+		},
+		"elements": {
+			"link": {
+				"color": {
+					"text": "red"
+				}
+			}
+		},
+		"@tablet": {
+			"color": {
+				"background": "lightblue"
+			}
+		},
+		"@mobile": {
+			"color": {
+				"background": "lightgreen"
+			},
+			"elements": {
+				"link": {
+					"color": {
+						"text": "blue"
+					}
+				}
+			}
+		}
+	}
+}
