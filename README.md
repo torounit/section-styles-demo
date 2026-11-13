@@ -18,6 +18,7 @@ npm run start:nightly  # nightly → http://127.0.0.1:9401
 | [root-breakpoints](styles/sections/working/root-breakpoints.json) | `styles.@mobile`（`css` 含む） | ❌ | ✅ | 有効 | [#65992](https://core.trac.wordpress.org/ticket/65992)、[PR #82403](https://github.com/WordPress/gutenberg/pull/82403) |
 | [blocks-breakpoints](styles/sections/working/blocks-breakpoints.json) | `styles.blocks.{block}.@mobile` | ✅ | ✅ | 有効 | [Dev note](https://make.wordpress.org/core/2026/08/05/responsive-block-styles-and-configurable-viewports-in-wordpress-7-1/) |
 | [blocks-breakpoints-elements](styles/sections/working/blocks-breakpoints-elements.json) | `styles.blocks.{block}.@mobile.elements.{element}` | ✅ | ✅ | 有効 | [Docs](https://github.com/WordPress/gutenberg/blob/884f439feac30c3f097e91bf6fb29cfe22a8cb78/docs/how-to-guides/themes/global-settings-and-styles.md#responsive-styles) |
+| [blocks-breakpoints-tablet-only](styles/sections/working/blocks-breakpoints-tablet-only.json) | `styles.blocks.{block}.@tablet` のみ（`@mobile` なし） | ✅ | ✅ | 有効 | [メディアクエリ](#メディアクエリ) |
 | [root-breakpoints-blocks](styles/sections/not-working/root-breakpoints-blocks.json) | `styles.@mobile.blocks.{block}` | ❌ | ❌ | 無効：`@mobile` の中に `blocks` は書けない | [スキーマテスト](https://github.com/WordPress/gutenberg/blob/884f439feac30c3f097e91bf6fb29cfe22a8cb78/test/integration/theme-schema.test.js#L131-L140)で無効扱い（[同じ形の fixture](https://github.com/WordPress/gutenberg/blob/884f439feac30c3f097e91bf6fb29cfe22a8cb78/test/integration/fixtures/schemas/stylesBlocksResponsiveStatePropertiesComplete.json)） |
 | [elements-breakpoints](styles/sections/not-working/elements-breakpoints.json) | `styles.elements.{element}.@mobile` | ⚠️ | ⚠️ | 無効：`elements.{element}` の中に `@mobile` は書けない | [スキーマテスト](https://github.com/WordPress/gutenberg/blob/884f439feac30c3f097e91bf6fb29cfe22a8cb78/test/integration/theme-schema.test.js#L131-L140)で無効扱い（[同じ形の fixture](https://github.com/WordPress/gutenberg/blob/884f439feac30c3f097e91bf6fb29cfe22a8cb78/test/integration/fixtures/schemas/stylesElementsPropertiesComplete_breakpoint.json)） |
 | [blocks-elements-breakpoints](styles/sections/not-working/blocks-elements-breakpoints.json) | `styles.blocks.{block}.elements.{element}.@mobile` | ⚠️ | ⚠️ | 無効：`elements.{element}` の中に `@mobile` は書けない | [スキーマテスト](https://github.com/WordPress/gutenberg/blob/884f439feac30c3f097e91bf6fb29cfe22a8cb78/test/integration/theme-schema.test.js#L131-L140)で無効扱い（[同じ形の fixture](https://github.com/WordPress/gutenberg/blob/884f439feac30c3f097e91bf6fb29cfe22a8cb78/test/integration/fixtures/schemas/stylesElementsPropertiesComplete_blockBreakpoint.json)） |
@@ -31,6 +32,26 @@ npm run start:nightly  # nightly → http://127.0.0.1:9401
 | 入れ子のブロックをブレークポイントで変える | `blocks.{block}.@mobile` | `@mobile.blocks.{block}` |
 | element をブレークポイントで変える | `@mobile.elements.{element}` | `elements.{element}.@mobile` |
 | 7.1.3 で section 自体をブレークポイントで変える | theme.json の `styles.blocks.core/group.variations.{slug}.@mobile`（`register_block_style()` で登録） | パーシャルの `styles.@mobile` |
+
+## メディアクエリ
+
+2026-11-05 に 7.1.3 / 7.1.4 / 7.2-beta2-64803 で確認。出力はフロントとエディタで同じ。
+
+| 書き方 | 出力される CSS | 適用される幅 |
+| --- | --- | --- |
+| ベース | メディアクエリなし | すべて |
+| `@tablet` | `@media (480px < width <= 782px)` | 480px より大きく 782px 以下 |
+| `@mobile` | `@media (width <= 480px)` | 480px 以下 |
+
+CSS だけを見るとデスクトップファースト。ただし `max-width` を重ねる形ではなく、`@tablet` と `@mobile` は範囲が重ならない。
+
+| 観点 | 結果 |
+| --- | --- |
+| デスクトップファーストか | はい。ベースはメディアクエリなしで、`@tablet` / `@mobile` が狭い幅だけを上書きする。`@desktop` は[スキーマ](https://github.com/WordPress/gutenberg/blob/572b44d6dac11ba0f122ecd7bdf6c9a0f3f5971a/schemas/json/theme.json#L2142)になく、デスクトップの値はベースに書く（`@desktop` のクエリは[ブロックの表示制御](https://github.com/WordPress/wordpress-develop/blob/4e4783fbd456f8d52ed62e3bfb8898aeaace1195/src/wp-includes/block-supports/block-visibility.php#L51)専用） |
+| `@tablet` は mobile 幅に継承されるか | されない。[blocks-breakpoints-tablet-only](styles/sections/working/blocks-breakpoints-tablet-only.json) の色は 1000px で赤（ベース）、600px で緑（`@tablet`）、400px で赤（ベース）。タブレットとモバイルで同じ値にしたいときは両方に書く |
+| 出力の順序 | ベース → `@mobile` → `@tablet`。範囲が重ならないので、`@mobile` と `@tablet` の順序は結果に影響しない |
+| ブレークポイントの変更 | theme.json の `settings.viewport` で変えられる。`{ "mobile": "600px", "tablet": "1000px" }` で `@media (width <= 600px)` と `@media (600px < width <= 1000px)` になることを 7.1.4 / 7.2 のフロントで確認 |
+| 生成元 | [PHP](https://github.com/WordPress/wordpress-develop/blob/4e4783fbd456f8d52ed62e3bfb8898aeaace1195/src/wp-includes/class-wp-theme-json.php#L747-L778)、[JS](https://github.com/WordPress/gutenberg/blob/572b44d6dac11ba0f122ecd7bdf6c9a0f3f5971a/packages/global-styles-engine/src/utils/viewport.ts#L142-L149) |
 
 ## 用語・根拠
 
